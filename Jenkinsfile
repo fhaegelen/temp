@@ -21,12 +21,12 @@ pipeline {
             }
         }
         stage ('Create exception') {
-            input {
-                    message "Process to trigger an exception ?"
-                    ok "Triggering"
-            }
             steps {
-                script {def trigger_exc = 10/0}
+                script {
+                    env.EXC = input message: Trigger an exception ?', ok: 'Triggering!',
+                            parameters: [choice(name: 'EXC', choices: 'yes\nno', description: 'Trigger an exception ?')]
+                    if (env.EXC == 'yes') {def trigger_exc = 10/0}   
+                }
             }
         }
     }

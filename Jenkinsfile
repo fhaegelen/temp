@@ -1,6 +1,39 @@
-echo "Hello from a pipeline script"
-echo "Job name: ${env.JOB_NAME}"
-echo " Build ID: ${env.BUILD_ID}"
-echo "Node name: ${env.NODE_NAME}"
-echo "Workspace: ${env.WORKSPACE}"
+pipeline {
+    agent any
+    stages {
+        stage ('Init') {
+            steps {
+                echo "Hello from an inline pipeline script"
+                echo "Job name: ${env.JOB_NAME}"
+                echo " Build ID: ${env.BUILD_ID}"
+                echo "Node name: ${env.NODE_NAME}"
+                echo "Workspace: ${env.WORKSPACE}"
+            }
+        }
+        stage ('Set and read environment variable') {
+            environment {DENV = 'test'}
+            input {
+                    message "Process to read DENV env variable ?"
+                    ok "Proceeding"
+            }
+            steps {
+                echo "Running in ${env.DENV}"
+            }
+        }
+        stage ('Create exception') {
+            input {
+                    message "Process to trigger an exception ?"
+                    ok "Triggering"
+            }
+            steps {
+                script {def trigger_exc = 10/0}
+            }
+        }
+    }
+    post{
+        success { echo "It was a success!"}
+        failure { echo "You cannot divide by zero!"}        
+    }
+}
+
 

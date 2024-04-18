@@ -1,5 +1,6 @@
 echo "Hello from a pipeline script"
-echo "Job name: " + $JOB_NAME
-echo " Build ID: " + $BUILD_ID
-echo "Node name: " + $NODE_NAME
-echo "Workspace: " + $WORKSPACE
+echo "Job name: " + ${env.JOB_NAME}
+echo " Build ID: " + ${env.BUILD_ID}
+echo "Node name: " + ${env.NODE_NAME}
+echo "Workspace: " + ${env.WORKSPACE}
+
